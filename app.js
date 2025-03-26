@@ -48,6 +48,7 @@ function toggleTask(id){
         task.id === id ? { ...task, completed: !task.completed } : task
     )
     saveTasks(tasks)
+    renderTasks()
 }
 
 document.addEventListener('DOMContentLoaded', () => {
