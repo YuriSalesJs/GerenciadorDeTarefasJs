@@ -6,9 +6,11 @@ document.getElementById('addTask').addEventListener('click', () => {
 })
 
 function addTask(text){
+    const priority = document.getElementById("taskPriority").value
     const newTask = {
         id: Date.now(),
-        text: text,
+        text,
+        priority,
         completed: false
     }
 
@@ -20,10 +22,11 @@ function addTask(text){
 function renderTasks(){
     const taskList = document.getElementById('taskList')
     taskList.innerHTML = tasks.map(task => `
-        <li class="${task.completed ? 'completed' : ''}">
+        <li class="${task.priority} ${task.completed ? 'completed' : ''}">
             <input type="checkbox" ${task.completed ? 'checked' : ''}
                 onchange = "toggleTask(${task.id})">
                 ${task.text}
+            <span class = "priority-label">(${task.priority})</span>    
             <button onclick = "deleteTask(${task.id})">X</button>
         </li>        
         `).join('')

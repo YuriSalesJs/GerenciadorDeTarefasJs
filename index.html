@@ -10,10 +10,14 @@
     <input type="text" id="taskInput" placeholder="Nova tarefa...">
     <button id="addTask">Adicionar</button>
     <ul id="taskList"></ul>
-    <select id="priority">  
-    <option value="urgent-important">Urgente e Importante</option>  
-    <option value="notUrgent-important">Não Urgente, mas Importante</option>
-    </select>  
+
+    <select id="taskPriority">  
+    <option value="importante">Urgente e Importante</option>  
+    <option value="naoUrgente-importante">Não Urgente, mas Importante</option>
+    <option value="urgente-naoImportante">Urgente, mas não importante</option>
+    <option value="naoUrgente-naoImportante">Não urgente e Não Importante</option>  
+    </select>
+   
 
     <script src="app.js"></script>
 </body>
