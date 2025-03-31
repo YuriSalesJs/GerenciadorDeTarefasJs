@@ -68,12 +68,12 @@ function handleDragStart(e) {
     e.dataTransfer.effectAllowed = 'move'
 }
 
-function handleDragOver(e){
+function handleDragOver(e) {
     e.preventDefault()
     e.dataTransfer.dropEffect = 'move'
+    
     const targetItem = e.target.closest('li')
-
-    if(targetItem && targetItem !== draggedItem){
+    if (targetItem && targetItem !== draggedItem) {
         const rect = targetItem.getBoundingClientRect()
         const next = (e.clientY - rect.top) / (rect.bottom - rect.top) > 0.5
         taskList.insertBefore(
@@ -85,27 +85,42 @@ function handleDragOver(e){
 
 function handleDrop(e) {
     e.preventDefault()
+
     const targetItem = e.target.closest('li')
-
-    if(targetItem && draggedItem !== targetItem){
-        const draggedId = parseInt(draggedItem.dataset.id)
-        const targetId = parseInt(targetItem.dataset.id)
-
-        const draggedIndex = tasks.findIndex(task => task.id === draggedId)
-        const targetIndex = tasks.findIndex(task => task.id === targetId)
-
-        if(draggedIndex !== -1 && targetIndex !== -1){
-            const [removed] = tasks.splice(draggedIndex, 1)
-            tasks.splice(targetIndex, 0, removed)
-            saveTasks(tasks)
-        }
+    if(!targetItem || !draggedItem || targetItem === draggedItem){
+        resetDragState()
+        return
     }
-    draggedItem.classList.remove('dragging')
-    draggedItem = null
+
+    const draggedId = parseInt(draggedItem.dataset.id)
+    const targetId = parseInt(targetItem.dataset.id)
+
+    if(isNaN(draggedId) || isNaN(targetId)){
+        resetDragState()
+        return
+    }
+
+    updateTaskOrder(draggedId, targetId)
+    resetDragState()
+    
 }
 
-function handleDragEnd(){
-    if(draggedItem){
+function updateTaskOrder(draggedId, targetId){
+    const draggedIndex = tasks.findIndex(task => task.id === draggedId)
+    const targetIndex = tasks.findIndex(task => task.id === targetId)
+
+    if(draggedIndex !== -1 && targetIndex !== -1){
+        const [removed] = tasks.splice(draggedIndex, 1)
+        tasks.splice(targetIndex, 0 , removed)
+        saveTasks(tasks)
+        renderTasks()
+    }
+}
+
+
+
+function resetDragState() {
+    if (draggedItem) {
         draggedItem.classList.remove('dragging')
         draggedItem = null
     }
@@ -118,5 +133,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     taskList.addEventListener('dragover', handleDragOver)
     taskList.addEventListener('drop', handleDrop)
-    taskList.addEventListener('dragend', handleDragEnd)
+    taskList.addEventListener('dragend', resetDragState)
 })
