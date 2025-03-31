@@ -100,3 +100,34 @@ select{
       width: 100%; 
     }
   }
+
+
+.importante_urgente {
+    border-left: 4px solid #dc3545;
+}
+
+.naoUrgente-importante {
+    border-left: 4px solid #fd7e14;
+}
+
+.urgente-naoImportante {
+    border-left: 4px solid #ffc107;
+}
+
+.naoUrgente-naoImportante {
+    border-left: 4px solid #28a745;
+}
+
+li[draggable='true']{
+    cursor: grab;
+}
+
+li.dragging{
+    opacity: 0.5;
+    background-color: #f8f9fa;
+    border: 2px dashed #2b89ac;
+}
+
+li.over {
+    border-top: 2px solid #2b89ec;
+}
